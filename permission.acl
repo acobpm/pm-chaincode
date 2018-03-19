@@ -1,0 +1,41 @@
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+/**
+ * Access Control List for the promiseme.
+ */
+rule Person {
+    description: "Allow the auctioneer full access"
+    participant: "com.acob.promiseme.Person"
+    operation: ALL
+    resource: "com.acob.promiseme.*"
+    action: ALLOW
+}
+
+// CoupleRead - this will allow couple binded ID to visit the business network
+rule CoupleRead {
+    description: "Grant business network administrators full access to system resources"
+    participant: "com.acob.promiseme.Couple"
+    operation: READ
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}
+rule CoupleWriteTransaction {
+    description: "Grant business network administrators full access to system resources"
+    participant: "com.acob.promiseme.Couple"
+    operation: CREATE
+    resource: "org.hyperledger.composer.system.HistorianRecord"  
+    action: ALLOW
+}

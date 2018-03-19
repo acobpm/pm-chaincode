@@ -1,0 +1,11 @@
+/**
+ * New query file
+ */
+
+query findMyPromise {
+  description: "Find all promises with promiser name and status array"
+  statement:
+      SELECT com.acob.promiseme.PromiseHeader
+  		WHERE (Promiser == _$user)
+          
+}
