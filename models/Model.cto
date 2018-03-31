@@ -31,6 +31,7 @@
     o COMPLETED
     o CLOSED
     o CANCELLED
+    o NA
   }
 
 
@@ -76,6 +77,101 @@
     o Status status    
     
   }
+
+  //voucher
+  asset Voucher identified by voucherId{
+     o String voucherId
+      o VoucherType voucherType
+     }
+
+  //voucher new promise
+  asset VoucherNew extends Voucher {
+     o Double bonus
+     o Long loveRate
+     o String brief
+     o Status startingStatus
+    
+  }
+
+ //voucher change promise
+  asset VoucherChange extends Voucher {
+    o Status status
+    o String brief
+    o Double extensionDays
+    o Double bonus
+  }
+
+  //create Voucher which creates new promise
+  transaction createVoucherNew{
+    o String voucherId
+    o Status startingStatus
+    o String brief
+    o Double bonus
+    o Long loveRate
+    }
+ 
+ //create Voucher which changes existing promise
+  transaction createVoucherChange{
+    o String voucherId
+    o Status status
+    o String brief
+    o Double extensionDays
+    o Double bonus
+    }
+
+enum VoucherType {
+    o NEW
+    o CHANGE
+  } 
+
+  //voucherInstance
+  asset VoucherInstance identified by voucherInstanceId{
+    o String voucherInstanceId
+    o String ownerId
+    o voucherStatus voucherStatus
+    o VoucherType voucherType
+    o DateTime expiryDate
+  }
+
+  enum voucherStatus {
+    o UNUSED
+    o USED
+  } 
+
+
+  //voucherInstance new promise
+  asset VoucherInstanceNew extends VoucherInstance {
+  
+    o Status startingStatus
+    o String brief
+    o Double bonus
+    o Long loveRate
+  }
+
+ //voucherInstance change promise
+  asset VoucherInstanceChange extends VoucherInstance {
+    o Status status
+    o String brief
+    o Double extensionDays
+    o Double bonus
+  }
+
+    //buy Voucher
+  transaction buyVoucher{
+    o String voucherId
+     o String ownerId
+    }
+
+  //use Voucher
+  transaction useVoucher{
+    o String voucherInstanceId
+    o DateTime deadline
+    o String expectation
+    o String ownerId
+    o String promiseId
+    }
+
+
   /**
   * Transaction to create an order
   */
@@ -125,11 +221,11 @@
     o DateTime deadline
   }
   /**
-  * Transaction to change promise status forward  again
+  * Transaction to change promise status forward
   */
   transaction ConfirmPromise{
     o String promiseId
-    o String promiseFromId 
+    o String promiseFromId
     o String promiseToId
     o String currentId
     o String message
